@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hẹ hẹ hẹ</title>
+  <style>
+    html, body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+      height: 100%;
+      width: 100%;
+      touch-action: none;
+    }
+
+    #container {
+      width: 100vw;
+      height: 100vh;
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      transition: transform 0.1s;
+    }
+
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 2s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+
+    .layer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .message {
+      position: absolute;
+      white-space: nowrap;
+      color: white;
+      font-weight: bold;
+      text-shadow: 1px 1px 5px #fff;
+      opacity: 0;
+      animation: fall ease-in forwards;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    .layer1 .message { font-size: 26px; animation-duration: 14s; z-index: 4; }
+    .layer2 .message { font-size: 24px; animation-duration: 17s; z-index: 3; }
+    .layer3 .message { font-size: 22px; animation-duration: 20s; z-index: 2; }
+    .layer4 .message { font-size: 20px; animation-duration: 24s; z-index: 1; }
+  </style>
+</head>
+<body>
+
+<div id="container">
+  <div class="stars" id="stars"></div>
+
+  <div class="layer layer1"></div>
+  <div class="layer layer2"></div>
+  <div class="layer layer3"></div>
+  <div class="layer layer4"></div>
+</div>
+
+<script>
+  // Bầu trời sao
+  const stars = document.getElementById('stars');
+  for (let i = 0; i < 150; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+    stars.appendChild(star);
+  }
+
+  const messages = [
+    "Barcelona top 1 trong lòng người hâm mộ",
+    "Đặng Thu Trang",
+    "F4 Hàn Quốc và các F1 Việt Nam.",
+    "Hẹ hẹ hẹ",
+  ];
+
+  const layers = [
+    document.querySelector('.layer1'),
+    document.querySelector('.layer2'),
+    document.querySelector('.layer3'),
+    document.querySelector('.layer4')
+  ];
+
+  function createMessage(text, layer) {
+    const msg = document.createElement('div');
+    msg.className = 'message';
+    msg.innerText = text;
+    msg.style.left = Math.random() * 80 + 10 + '%';
+    msg.style.top = '-50px';
+    msg.style.animationDelay = (Math.random() * 1) + 's';
+    layer.appendChild(msg);
+
+    setTimeout(() => msg.remove(), 30000);
+  }
+
+  let i = 0;
+  setInterval(() => {
+    const text = messages[i % messages.length];
+    const layerIndex = i % 4;
+    createMessage(text, layers[layerIndex]);
+    i++;
+  }, 1800);
+
+  // Zoom + Xoay toàn cảnh
+  let scale = 1;
+  let rotateX = 0;
+  let rotateY = 0;
+  let isDragging = false;
+  let lastX, lastY;
+
+  const container = document.getElementById('container');
+
+  document.addEventListener('wheel', (e) => {
+    scale += e.deltaY * -0.001;
+    scale = Math.min(Math.max(0.3, scale), 3);
+    updateTransform();
+  });
+
+  document.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    lastX = e.clientX;
+    lastY = e.clientY;
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      const dx = e.clientX - lastX;
+      const dy = e.clientY - lastY;
+      rotateY += dx * 0.3;
+      rotateX -= dy * 0.3;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      updateTransform();
+    }
+  });
+
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
+
+  function updateTransform() {
+    container.style.transform = `scale(${scale}) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  }
+</script>
+
+</body>
+</html>
