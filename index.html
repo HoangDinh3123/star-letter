@@ -74,10 +74,19 @@
       }
     }
 
-    .layer1 .message { font-size: 30px; animation-duration: 14s; z-index: 4; }
-    .layer2 .message { font-size: 28px; animation-duration: 17s; z-index: 3; }
-    .layer3 .message { font-size: 26px; animation-duration: 20s; z-index: 2; }
-    .layer4 .message { font-size: 24px; animation-duration: 24s; z-index: 1; }
+    /* tăng font-size mặc định cho desktop */
+    .layer1 .message { font-size: 36px; animation-duration: 14s; z-index: 4; }
+    .layer2 .message { font-size: 34px; animation-duration: 17s; z-index: 3; }
+    .layer3 .message { font-size: 32px; animation-duration: 20s; z-index: 2; }
+    .layer4 .message { font-size: 30px; animation-duration: 24s; z-index: 1; }
+
+    /* media query tăng font cho màn nhỏ (điện thoại) */
+    @media (max-width: 768px) {
+      .layer1 .message { font-size: 48px; }
+      .layer2 .message { font-size: 44px; }
+      .layer3 .message { font-size: 40px; }
+      .layer4 .message { font-size: 36px; }
+    }
   </style>
 </head>
 <body>
