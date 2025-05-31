@@ -54,7 +54,7 @@
       white-space: nowrap;
       color: #ff4d4d; /* đỏ nhẹ */
       font-weight: bold;
-      text-shadow: 2px 2px 6px #ff4d4d;
+      text-shadow: 0 0 8px rgba(255, 77, 77, 0.9), 2px 2px 8px rgba(0, 0, 0, 0.7);
       opacity: 0;
       animation: fall ease-in forwards;
       max-width: 90vw;
@@ -76,18 +76,18 @@
       }
     }
 
-    /* Font size desktop */
-    .layer1 .message { font-size: 36px; animation-duration: 14s; z-index: 4; }
-    .layer2 .message { font-size: 34px; animation-duration: 17s; z-index: 3; }
-    .layer3 .message { font-size: 32px; animation-duration: 20s; z-index: 2; }
-    .layer4 .message { font-size: 30px; animation-duration: 24s; z-index: 1; }
+    /* Font size desktop (tăng nhẹ) */
+    .layer1 .message { font-size: 42px; animation-duration: 14s; z-index: 4; }
+    .layer2 .message { font-size: 40px; animation-duration: 17s; z-index: 3; }
+    .layer3 .message { font-size: 38px; animation-duration: 20s; z-index: 2; }
+    .layer4 .message { font-size: 36px; animation-duration: 24s; z-index: 1; }
 
-    /* Font size mobile - nhỏ hơn */
+    /* Font size mobile (tăng nhẹ) */
     @media (max-width: 768px) {
-      .layer1 .message { font-size: 24px; }
-      .layer2 .message { font-size: 22px; }
-      .layer3 .message { font-size: 20px; }
-      .layer4 .message { font-size: 18px; }
+      .layer1 .message { font-size: 30px; }
+      .layer2 .message { font-size: 28px; }
+      .layer3 .message { font-size: 26px; }
+      .layer4 .message { font-size: 24px; }
     }
   </style>
 </head>
