@@ -2,23 +2,27 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>Hẹ hẹ hẹ</title>
   <style>
     html, body {
       margin: 0;
-      overflow: hidden;
+      /* Bỏ overflow:hidden để cho phép cuộn hoặc co giãn khi xoay */
       background: black;
       height: 100%;
       width: 100%;
       touch-action: none;
+      overflow-x: hidden; /* hạn chế ngang nhưng không cấm dọc */
     }
 
     #container {
       width: 100vw;
       height: 100vh;
-      transform-style: preserve-3d;
-      transform-origin: center center;
-      transition: transform 0.1s;
+      /* Bỏ preserve-3d và transform-origin để tránh xoay chữ */
+      /* transform-style: preserve-3d;
+         transform-origin: center center;
+         transition: transform 0.1s; */
+      position: relative;
     }
 
     .stars {
@@ -58,18 +62,20 @@
       text-shadow: 2px 2px 6px #fff;
       opacity: 0;
       animation: fall ease-in forwards;
+      /* Đảm bảo chữ không bị xoay ngược */
+      transform: rotate(0deg);
     }
 
     @keyframes fall {
       0% {
-        transform: translateY(-100px);
+        transform: translateY(-100px) rotate(0deg);
         opacity: 0;
       }
       10% {
         opacity: 1;
       }
       100% {
-        transform: translateY(100vh);
+        transform: translateY(100vh) rotate(0deg);
         opacity: 0;
       }
     }
@@ -150,9 +156,7 @@
     i++;
   }, 1800);
 
-  // BỎ XOAY + ZOOM MÀN
-
-  // Không thêm event listener nào cho xoay hay zoom nữa
+  // Giữ nguyên: không có event listener xoay hay zoom
 </script>
 
 </body>
