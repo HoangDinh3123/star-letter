@@ -55,7 +55,7 @@
       white-space: nowrap;
       color: white;
       font-weight: bold;
-      text-shadow: 1px 1px 5px #fff;
+      text-shadow: 2px 2px 6px #fff;
       opacity: 0;
       animation: fall ease-in forwards;
     }
@@ -74,17 +74,16 @@
       }
     }
 
-    .layer1 .message { font-size: 26px; animation-duration: 14s; z-index: 4; }
-    .layer2 .message { font-size: 24px; animation-duration: 17s; z-index: 3; }
-    .layer3 .message { font-size: 22px; animation-duration: 20s; z-index: 2; }
-    .layer4 .message { font-size: 20px; animation-duration: 24s; z-index: 1; }
+    .layer1 .message { font-size: 30px; animation-duration: 14s; z-index: 4; }
+    .layer2 .message { font-size: 28px; animation-duration: 17s; z-index: 3; }
+    .layer3 .message { font-size: 26px; animation-duration: 20s; z-index: 2; }
+    .layer4 .message { font-size: 24px; animation-duration: 24s; z-index: 1; }
   </style>
 </head>
 <body>
 
 <div id="container">
   <div class="stars" id="stars"></div>
-
   <div class="layer layer1"></div>
   <div class="layer layer2"></div>
   <div class="layer layer3"></div>
@@ -92,7 +91,7 @@
 </div>
 
 <script>
-  // Bầu trời sao
+  // Tạo sao nền lung linh
   const stars = document.getElementById('stars');
   for (let i = 0; i < 150; i++) {
     const star = document.createElement('div');
@@ -103,11 +102,17 @@
     stars.appendChild(star);
   }
 
-  const messages = [
-    "Test hehj hệhje",
-    "Đặng Thu Trang",
-    "F4 Hàn Quốc và các F1 Việt Nam.",
-    "Hẹ hẹ hẹ",
+  // Danh sách câu tỏ tình + icon tương ứng
+  const messagesWithIcons = [
+    { text: "Đặng Thu Trang", icon: "❤️" },
+    { text: "Trang xinh đẹp đáng yêu tốt bụng=))", icon: "😍" },
+    { text: "Barcelona vô địch trong lòng người hâm mộ", icon: "🌟" },
+    { text: "Du học sinh Hàn Quốc", icon: "🌞" },
+    { text: "Anh trai say bye", icon: "😢" },
+    { text: "Roái đơ", icon: "😊" },
+    { text: "Tôi là đom đóm.", icon: "☀️" },
+    { text: "Fan Jack 20 năm", icon: "✨" },
+    { text: "Và dòng thư tay anh gửi trao em ngày nào<3", icon: "🤝" },
   ];
 
   const layers = [
@@ -117,110 +122,29 @@
     document.querySelector('.layer4')
   ];
 
-  function createMessage(text, layer) {
+  function createMessage({text, icon}, layer) {
     const msg = document.createElement('div');
     msg.className = 'message';
-    msg.innerText = text;
+    msg.innerHTML = `<span style="margin-right: 8px;">${icon}</span>${text}`;
     msg.style.left = Math.random() * 80 + 10 + '%';
     msg.style.top = '-50px';
     msg.style.animationDelay = (Math.random() * 1) + 's';
     layer.appendChild(msg);
-
     setTimeout(() => msg.remove(), 30000);
   }
 
   let i = 0;
   setInterval(() => {
-    const text = messages[i % messages.length];
+    const message = messagesWithIcons[i % messagesWithIcons.length];
     const layerIndex = i % 4;
-    createMessage(text, layers[layerIndex]);
+    createMessage(message, layers[layerIndex]);
     i++;
   }, 1800);
 
-  // Zoom + Xoay toàn cảnh (chuột + cảm ứng)
-  let scale = 1;
-  let rotateX = 0;
-  let rotateY = 0;
-  let isDragging = false;
-  let lastX, lastY;
+  // BỎ XOAY + ZOOM MÀN
 
-  const container = document.getElementById('container');
-
-  function updateTransform() {
-    container.style.transform = `scale(${scale}) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-  }
-
-  // Chuột
-  document.addEventListener('wheel', (e) => {
-    scale += e.deltaY * -0.001;
-    scale = Math.min(Math.max(0.3, scale), 3);
-    updateTransform();
-  });
-
-  document.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    lastX = e.clientX;
-    lastY = e.clientY;
-  });
-
-  document.addEventListener('mousemove', (e) => {
-    if (isDragging) {
-      const dx = e.clientX - lastX;
-      const dy = e.clientY - lastY;
-      rotateY += dx * 0.3;
-      rotateX -= dy * 0.3;
-      lastX = e.clientX;
-      lastY = e.clientY;
-      updateTransform();
-    }
-  });
-
-  document.addEventListener('mouseup', () => {
-    isDragging = false;
-  });
-
-  // Cảm ứng
-  let lastTouchDistance = null;
-  let lastTouchMid = null;
-
-  document.addEventListener('touchstart', (e) => {
-    if (e.touches.length === 1) {
-      lastX = e.touches[0].clientX;
-      lastY = e.touches[0].clientY;
-    } else if (e.touches.length === 2) {
-      const dx = e.touches[0].clientX - e.touches[1].clientX;
-      const dy = e.touches[0].clientY - e.touches[1].clientY;
-      lastTouchDistance = Math.sqrt(dx * dx + dy * dy);
-    }
-  });
-
-  document.addEventListener('touchmove', (e) => {
-    e.preventDefault(); // Ngăn zoom mặc định trình duyệt
-    if (e.touches.length === 1) {
-      const dx = e.touches[0].clientX - lastX;
-      const dy = e.touches[0].clientY - lastY;
-      rotateY += dx * 0.3;
-      rotateX -= dy * 0.3;
-      lastX = e.touches[0].clientX;
-      lastY = e.touches[0].clientY;
-      updateTransform();
-    } else if (e.touches.length === 2) {
-      const dx = e.touches[0].clientX - e.touches[1].clientX;
-      const dy = e.touches[0].clientY - e.touches[1].clientY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      if (lastTouchDistance) {
-        const delta = distance - lastTouchDistance;
-        scale += delta * 0.005;
-        scale = Math.min(Math.max(0.3, scale), 3);
-        updateTransform();
-      }
-      lastTouchDistance = distance;
-    }
-  });
-
-  document.addEventListener('touchend', () => {
-    lastTouchDistance = null;
-  }, { passive: false });
+  // Không thêm event listener nào cho xoay hay zoom nữa
 </script>
+
 </body>
 </html>
